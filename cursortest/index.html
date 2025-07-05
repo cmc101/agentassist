@@ -128,55 +128,202 @@
     .required-field {
       color: red;
     }
+    .form-section {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+    .form-section h2 {
+      color: #2d3748;
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #3182ce;
+    }
+    .terms-section {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .terms-section h3 {
+      color: #2d3748;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+    .terms-content {
+      margin-bottom: 20px;
+    }
+    .terms-content p {
+      margin-bottom: 10px;
+      color: #4a5568;
+    }
+    .terms-content ul {
+      margin: 0;
+      padding-left: 20px;
+      color: #4a5568;
+    }
+    .terms-content li {
+      margin-bottom: 5px;
+    }
+    .upload-section {
+      display: flex;
+      gap: 25px;
+      align-items: flex-start;
+      margin-bottom: 30px;
+    }
+    .upload-left {
+      flex: 1;
+      text-align: center;
+    }
+    .upload-right {
+      flex: 1;
+    }
+    .upload-requirements {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      min-height: 100px;
+    }
+    .upload-requirements h4 {
+      margin: 0 0 10px 0;
+      color: #495057;
+      font-size: 0.9rem;
+    }
+    .upload-requirements ul {
+      margin: 0;
+      padding-left: 20px;
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+    .upload-requirements li {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Assisted Application</h1>
     <form id="customerForm" autocomplete="off">
-      <label for="firstName">First Name <span class="required-field">*</span></label>
-      <input type="text" id="firstName" name="firstName" required>
+      <!-- Submitter Information Section -->
+      <div class="form-section">
+        <h2>Submitter Information</h2>
+        
+        <label for="submitterName">Your Name <span class="required-field">*</span></label>
+        <input type="text" id="submitterName" name="submitterName" required>
 
-      <label for="lastName">Last Name <span class="required-field">*</span></label>
-      <input type="text" id="lastName" name="lastName" required>
+        <label for="submitterEmail">Your Email <span class="required-field">*</span></label>
+        <input type="email" id="submitterEmail" name="submitterEmail" required>
 
-      <label for="email">Email Address <span class="required-field">*</span></label>
-      <input type="email" id="email" name="email" required>
+        <label for="salesAgentCompany">Sales Agent Company Name <span class="required-field">*</span></label>
+        <input type="text" id="salesAgentCompany" name="salesAgentCompany" required>
+      </div>
 
-      <label for="phone">Phone Number <span class="required-field">*</span></label>
-      <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
-
-      <label for="entityName">Entity Name <span class="required-field">*</span></label>
-      <input type="text" id="entityName" name="entityName" required>
-
-      <div class="form-row">
-        <div class="form-column">
-          <label for="entityType">Entity Type <span class="required-field">*</span></label>
-          <select id="entityType" name="entityType" required>
-            <option value="">Select...</option>
-            <option value="LLC">LLC</option>
-            <option value="Corp">Corp</option>
-            <option value="S-Corp">S-Corp</option>
-          </select>
+      <!-- Product Selection Section -->
+      <div class="form-section">
+        <h2>Product Selection</h2>
+        
+        <div class="checkbox-group">
+          <label>Product <span class="required-field">*</span></label><br>
+          <label><input type="checkbox" name="product" value="P1"> P1</label>
+          <label><input type="checkbox" name="product" value="P2"> P2</label>
+          <label><input type="checkbox" name="product" value="P3"> P3</label>
         </div>
-        <div class="form-column">
-          <div class="requirements-panel" id="requirementsPanel" style="display: none;">
+      </div>
+
+      <!-- Company Information Section -->
+      <div class="form-section">
+        <h2>Company Information</h2>
+        
+        <label for="entityName">Entity Name <span class="required-field">*</span></label>
+        <input type="text" id="entityName" name="entityName" required>
+
+        <label for="dba">DBA</label>
+        <input type="text" id="dba" name="dba">
+
+        <div class="form-row">
+          <div class="form-column">
+            <label for="entityType">Entity Type <span class="required-field">*</span></label>
+            <select id="entityType" name="entityType" required>
+              <option value="">Select...</option>
+              <option value="LLC">LLC</option>
+              <option value="Corp">Corp</option>
+              <option value="S-Corp">S-Corp</option>
+            </select>
+          </div>
+          <div class="form-column">
+            <div class="requirements-panel" id="requirementsPanel" style="display: none;">
+              <h4>Required Documents:</h4>
+              <ul id="requirementsList">
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <label for="ein">EIN <span class="required-field">*</span></label>
+        <input type="text" id="ein" name="ein" required placeholder="XX-XXXXXXX">
+
+        <label for="jurisdiction">Jurisdiction <span class="required-field">*</span></label>
+        <input type="text" id="jurisdiction" name="jurisdiction" required>
+
+        <label for="supportEmail">Support Email <span class="required-field">*</span></label>
+        <input type="email" id="supportEmail" name="supportEmail" required>
+
+        <label for="supportPhone">Support Phone Number <span class="required-field">*</span></label>
+        <input type="tel" id="supportPhone" name="supportPhone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
+      </div>
+
+      <!-- Owner Information Section -->
+      <div class="form-section">
+        <h2>Owner Information</h2>
+        
+        <label for="ownerFirstName">First Name <span class="required-field">*</span></label>
+        <input type="text" id="ownerFirstName" name="ownerFirstName" required>
+
+        <label for="ownerLastName">Last Name <span class="required-field">*</span></label>
+        <input type="text" id="ownerLastName" name="ownerLastName" required>
+
+        <label for="ownerEmail">Email <span class="required-field">*</span></label>
+        <input type="email" id="ownerEmail" name="ownerEmail" required>
+
+        <label for="ownerPhone">Phone <span class="required-field">*</span></label>
+        <input type="tel" id="ownerPhone" name="ownerPhone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
+      </div>
+
+      <!-- Document Upload Section -->
+      <div class="upload-section">
+        <div class="upload-left">
+          <a href="mailto:ninjuwat@gmail.com" class="upload-btn">Upload Required Documents</a>
+        </div>
+        <div class="upload-right">
+          <div class="upload-requirements" id="uploadRequirements" style="display: none;">
             <h4>Required Documents:</h4>
-            <ul id="requirementsList">
+            <ul id="uploadRequirementsList">
             </ul>
           </div>
         </div>
       </div>
 
-      <div class="checkbox-group">
-        <label>Product <span class="required-field">*</span></label><br>
-        <label><input type="checkbox" name="product" value="P1"> P1</label>
-        <label><input type="checkbox" name="product" value="P2"> P2</label>
-        <label><input type="checkbox" name="product" value="P3"> P3</label>
-      </div>
-
-      <div style="text-align: center; margin-bottom: 30px;">
-        <a href="mailto:ninjuwat@gmail.com" class="upload-btn">Upload Required Documents</a>
+      <!-- Terms and Conditions Section -->
+      <div class="terms-section">
+        <h3>Terms and Conditions</h3>
+        <div class="terms-content">
+          <p>By submitting this application, you confirm that:</p>
+          <ul>
+            <li>All information provided is accurate and complete</li>
+            <li>You have the authority to submit this application on behalf of the entity</li>
+            <li>You understand and agree to our terms and conditions</li>
+            <li>You consent to the processing of this information for business purposes</li>
+          </ul>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="termsAccepted" name="termsAccepted" required> I confirm that all provided information is accurate and I understand the terms and conditions <span class="required-field">*</span></label>
+        </div>
       </div>
 
       <button type="submit">Submit Application</button>
@@ -186,31 +333,50 @@
     // Google Sheets integration
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxG5qxBGXNJks76eWu-ebufMYc87HgaSEqdZBVWIHWw5ZzTGGgKfN6PtNUwZACO8C5H/exec';
     
-    // Phone number formatting
-    document.getElementById('phone').addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\D/g, '');
+    // Phone number formatting for all phone fields
+    function formatPhoneNumber(input) {
+      let value = input.value.replace(/\D/g, '');
       if (value.length >= 6) {
         value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
       } else if (value.length >= 3) {
         value = value.replace(/(\d{3})(\d{0,3})/, '($1) $2');
       }
-      e.target.value = value;
+      input.value = value;
+    }
+
+    // Apply phone formatting to all phone fields
+    document.getElementById('supportPhone').addEventListener('input', function(e) {
+      formatPhoneNumber(e.target);
+    });
+    
+    document.getElementById('ownerPhone').addEventListener('input', function(e) {
+      formatPhoneNumber(e.target);
     });
     
     // Requirements panel functionality
-    const requirements = {
+    const entityRequirements = {
       'LLC': ['Articles of Organization', 'Operating Agreement', 'EIN Application'],
       'Corp': ['Articles of Incorporation', 'Corporate Bylaws', 'Board Resolution'],
       'S-Corp': ['S-Corp Election Form', 'Shareholder Agreement', 'Tax Election Documents']
     };
     
-    document.getElementById('entityType').addEventListener('change', function(e) {
+    const jurisdictionRequirements = {
+      'DE': 'Certificate of Good Standing',
+      'WV': 'Certificate of Good Standing', 
+      'NJ': 'Certificate of Good Standing'
+    };
+    
+    function updateRequirements() {
+      const entityType = document.getElementById('entityType').value;
+      const jurisdiction = document.getElementById('jurisdiction').value.toUpperCase();
+      
+      // Update the requirements panel next to entity type
       const panel = document.getElementById('requirementsPanel');
       const list = document.getElementById('requirementsList');
       
-      if (e.target.value && requirements[e.target.value]) {
+      if (entityType && entityRequirements[entityType]) {
         list.innerHTML = '';
-        requirements[e.target.value].forEach(doc => {
+        entityRequirements[entityType].forEach(doc => {
           const li = document.createElement('li');
           li.textContent = doc;
           list.appendChild(li);
@@ -219,7 +385,36 @@
       } else {
         panel.style.display = 'none';
       }
-    });
+      
+      // Update the upload requirements section
+      const uploadPanel = document.getElementById('uploadRequirements');
+      const uploadList = document.getElementById('uploadRequirementsList');
+      
+      let allRequirements = [];
+      
+      if (entityType && entityRequirements[entityType]) {
+        allRequirements = [...entityRequirements[entityType]];
+      }
+      
+      if (jurisdiction && jurisdictionRequirements[jurisdiction]) {
+        allRequirements.push(jurisdictionRequirements[jurisdiction]);
+      }
+      
+      if (allRequirements.length > 0) {
+        uploadList.innerHTML = '';
+        allRequirements.forEach(doc => {
+          const li = document.createElement('li');
+          li.textContent = doc;
+          uploadList.appendChild(li);
+        });
+        uploadPanel.style.display = 'block';
+      } else {
+        uploadPanel.style.display = 'none';
+      }
+    }
+    
+    document.getElementById('entityType').addEventListener('change', updateRequirements);
+    document.getElementById('jurisdiction').addEventListener('input', updateRequirements);
     
     document.getElementById('customerForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -233,24 +428,31 @@
       
       // Check if entity type is selected and show document upload confirmation
       const entityType = document.getElementById('entityType').value;
+      const jurisdiction = document.getElementById('jurisdiction').value.toUpperCase();
+      
       if (entityType) {
-        const requirements = {
-          'LLC': ['Articles of Organization', 'Operating Agreement', 'EIN Application'],
-          'Corp': ['Articles of Incorporation', 'Corporate Bylaws', 'Board Resolution'],
-          'S-Corp': ['S-Corp Election Form', 'Shareholder Agreement', 'Tax Election Documents']
-        };
+        let allRequiredDocs = [...entityRequirements[entityType]];
         
-        const requiredDocs = requirements[entityType];
-        const docList = requiredDocs.map(doc => `• ${doc}`).join('\n');
+        if (jurisdiction && jurisdictionRequirements[jurisdiction]) {
+          allRequiredDocs.push(jurisdictionRequirements[jurisdiction]);
+        }
+        
+        const docList = allRequiredDocs.map(doc => `• ${doc}`).join('\n');
         
         const confirmation = confirm(
-          `Please confirm that you have uploaded the following required documents for ${entityType}:\n\n${docList}\n\nHave you uploaded these documents to ninjuwat@gmail.com?`
+          `Please confirm that you have uploaded the following required documents:\n\n${docList}\n\nHave you uploaded these documents to ninjuwat@gmail.com?`
         );
         
         if (!confirmation) {
           alert('Please upload the required documents before submitting your application.');
           return;
         }
+      }
+      
+      // Check if terms and conditions are accepted
+      if (!document.getElementById('termsAccepted').checked) {
+        alert('Please accept the terms and conditions before submitting your application.');
+        return;
       }
       
       const formData = new FormData(this);
