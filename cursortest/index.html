@@ -163,17 +163,18 @@
       // Add timestamp
       data.timestamp = new Date().toLocaleString();
       
-      // Send to Google Sheets
+      // Send to Google Sheets using a more reliable approach
+      const urlParams = new URLSearchParams();
+      for (let key in data) {
+        urlParams.append(key, data[key]);
+      }
+      
       fetch(scriptURL, {
         method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        mode: 'no-cors' // Add this to handle CORS issues
+        body: urlParams,
+        mode: 'no-cors'
       })
-      .then(response => {
-        // With no-cors mode, we can't read the response, so we'll assume success
+      .then(() => {
         alert('Form submitted successfully!');
         this.reset();
       })

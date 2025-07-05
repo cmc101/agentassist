@@ -1,14 +1,7 @@
 function doPost(e) {
-  // Set CORS headers
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
-  };
-  
   try {
-    // Parse the JSON data from the form
-    const data = JSON.parse(e.postData.contents);
+    // Get form data from the request
+    const data = e.parameter;
     
     // Get the active spreadsheet
     const spreadsheet = SpreadsheetApp.openById('18Oj3a5wquM3fbzSHol-hfcQWcvxh07xw5n8cu8AAf-Q');
@@ -29,42 +22,21 @@ function doPost(e) {
     // Append the data to the sheet
     sheet.appendRow(rowData);
     
-    // Return success response with CORS headers
+    // Return success response
     return ContentService
       .createTextOutput(JSON.stringify({ 'result': 'success' }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeaders(headers);
+      .setMimeType(ContentService.MimeType.JSON);
       
   } catch (error) {
-    // Return error response with CORS headers
+    // Return error response
     return ContentService
       .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeaders(headers);
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
 function doGet(e) {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
-  };
-  
   return ContentService
     .createTextOutput('Form handler is working!')
-    .setMimeType(ContentService.MimeType.TEXT)
-    .setHeaders(headers);
-}
-
-function doOptions(e) {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
-  };
-  
-  return ContentService
-    .createTextOutput('')
-    .setHeaders(headers);
+    .setMimeType(ContentService.MimeType.TEXT);
 } 
