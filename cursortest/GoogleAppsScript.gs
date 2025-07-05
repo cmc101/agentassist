@@ -1,4 +1,12 @@
 function doPost(e) {
+  // Set CORS headers to allow requests from Netlify
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
   try {
     // Log the incoming request for debugging
     console.log('Received POST request');
@@ -61,27 +69,37 @@ function doPost(e) {
     
     console.log('Successfully appended row to sheet');
     
-    // Return success response
+    // Return success response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({ 'result': 'success', 'message': 'Data saved successfully' }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders(headers);
       
   } catch (error) {
     console.error('Error in doPost:', error);
     console.error('Error stack:', error.stack);
     
-    // Return error response
+    // Return error response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({ 
         'result': 'error', 
         'error': error.toString(),
         'message': 'Failed to process form submission'
       }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders(headers);
   }
 }
 
 function doGet(e) {
+  // Set CORS headers to allow requests from Netlify
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
   try {
     console.log('Received GET request');
     
@@ -92,17 +110,20 @@ function doGet(e) {
     if (spreadsheet) {
       return ContentService
         .createTextOutput('Form handler is working! Spreadsheet access confirmed.')
-        .setMimeType(ContentService.MimeType.TEXT);
+        .setMimeType(ContentService.MimeType.TEXT)
+        .setHeaders(headers);
     } else {
       return ContentService
         .createTextOutput('Form handler is working but cannot access spreadsheet.')
-        .setMimeType(ContentService.MimeType.TEXT);
+        .setMimeType(ContentService.MimeType.TEXT)
+        .setHeaders(headers);
     }
   } catch (error) {
     console.error('Error in doGet:', error);
     return ContentService
       .createTextOutput('Error: ' + error.toString())
-      .setMimeType(ContentService.MimeType.TEXT);
+      .setMimeType(ContentService.MimeType.TEXT)
+      .setHeaders(headers);
   }
 }
 
@@ -125,4 +146,18 @@ function testSpreadsheetAccess() {
     console.error('Error testing spreadsheet access:', error);
     return false;
   }
+}
+
+// Handle OPTIONS requests for CORS preflight
+function doOptions(e) {
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
+  return ContentService
+    .createTextOutput('')
+    .setHeaders(headers);
 } 
