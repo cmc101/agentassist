@@ -92,37 +92,81 @@
     .upload-btn:hover {
       background: #2f855a;
     }
+    .form-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .form-column {
+      flex: 1;
+    }
+    .requirements-panel {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 10px;
+      min-height: 100px;
+    }
+    .requirements-panel h4 {
+      margin: 0 0 10px 0;
+      color: #495057;
+      font-size: 0.9rem;
+    }
+    .requirements-panel ul {
+      margin: 0;
+      padding-left: 20px;
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+    .requirements-panel li {
+      margin-bottom: 5px;
+    }
+    .required-field {
+      color: red;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Assisted Application</h1>
     <form id="customerForm" autocomplete="off">
-      <label for="firstName">First Name</label>
+      <label for="firstName">First Name <span class="required-field">*</span></label>
       <input type="text" id="firstName" name="firstName" required>
 
-      <label for="lastName">Last Name</label>
+      <label for="lastName">Last Name <span class="required-field">*</span></label>
       <input type="text" id="lastName" name="lastName" required>
 
-      <label for="email">Email Address</label>
+      <label for="email">Email Address <span class="required-field">*</span></label>
       <input type="email" id="email" name="email" required>
 
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*">
+      <label for="phone">Phone Number <span class="required-field">*</span></label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
 
-      <label for="entityName">Entity Name</label>
+      <label for="entityName">Entity Name <span class="required-field">*</span></label>
       <input type="text" id="entityName" name="entityName" required>
 
-      <label for="entityType">Entity Type</label>
-      <select id="entityType" name="entityType" required>
-        <option value="">Select...</option>
-        <option value="LLC">LLC</option>
-        <option value="Corp">Corp</option>
-        <option value="S-Corp">S-Corp</option>
-      </select>
+      <div class="form-row">
+        <div class="form-column">
+          <label for="entityType">Entity Type <span class="required-field">*</span></label>
+          <select id="entityType" name="entityType" required>
+            <option value="">Select...</option>
+            <option value="LLC">LLC</option>
+            <option value="Corp">Corp</option>
+            <option value="S-Corp">S-Corp</option>
+          </select>
+        </div>
+        <div class="form-column">
+          <div class="requirements-panel" id="requirementsPanel" style="display: none;">
+            <h4>Required Documents:</h4>
+            <ul id="requirementsList">
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <div class="checkbox-group">
-        <label>Product</label><br>
+        <label>Product <span class="required-field">*</span></label><br>
         <label><input type="checkbox" name="product" value="P1"> P1</label>
         <label><input type="checkbox" name="product" value="P2"> P2</label>
         <label><input type="checkbox" name="product" value="P3"> P3</label>
@@ -139,8 +183,50 @@
     // Google Sheets integration
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxG5qxBGXNJks76eWu-ebufMYc87HgaSEqdZBVWIHWw5ZzTGGgKfN6PtNUwZACO8C5H/exec';
     
+    // Phone number formatting
+    document.getElementById('phone').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 6) {
+        value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+      } else if (value.length >= 3) {
+        value = value.replace(/(\d{3})(\d{0,3})/, '($1) $2');
+      }
+      e.target.value = value;
+    });
+    
+    // Requirements panel functionality
+    const requirements = {
+      'LLC': ['Articles of Organization', 'Operating Agreement', 'EIN Application'],
+      'Corp': ['Articles of Incorporation', 'Corporate Bylaws', 'Board Resolution'],
+      'S-Corp': ['S-Corp Election Form', 'Shareholder Agreement', 'Tax Election Documents']
+    };
+    
+    document.getElementById('entityType').addEventListener('change', function(e) {
+      const panel = document.getElementById('requirementsPanel');
+      const list = document.getElementById('requirementsList');
+      
+      if (e.target.value && requirements[e.target.value]) {
+        list.innerHTML = '';
+        requirements[e.target.value].forEach(doc => {
+          const li = document.createElement('li');
+          li.textContent = doc;
+          list.appendChild(li);
+        });
+        panel.style.display = 'block';
+      } else {
+        panel.style.display = 'none';
+      }
+    });
+    
     document.getElementById('customerForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // Custom validation for checkboxes
+      const productCheckboxes = document.querySelectorAll('input[name="product"]:checked');
+      if (productCheckboxes.length === 0) {
+        alert('Please select at least one product.');
+        return;
+      }
       
       const formData = new FormData(this);
       const data = {};
