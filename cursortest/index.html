@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assisted Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      margin-top: 40px;
+      padding: 32px 28px 24px 28px;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 28px;
+      color: #2d3748;
+      font-size: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #4a5568;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f9fafb;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus {
+      border: 1.5px solid #3182ce;
+      outline: none;
+    }
+    .checkbox-group {
+      margin-bottom: 18px;
+    }
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 16px;
+      font-weight: 400;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px 0;
+      background: #3182ce;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: #2563eb;
+    }
+    .upload-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #38a169;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .upload-btn:hover {
+      background: #2f855a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Assisted Application</h1>
+    <form id="customerForm" autocomplete="off">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" required>
+
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*">
+
+      <label for="entityName">Entity Name</label>
+      <input type="text" id="entityName" name="entityName" required>
+
+      <label for="entityType">Entity Type</label>
+      <select id="entityType" name="entityType" required>
+        <option value="">Select...</option>
+        <option value="LLC">LLC</option>
+        <option value="Corp">Corp</option>
+        <option value="S-Corp">S-Corp</option>
+      </select>
+
+      <div class="checkbox-group">
+        <label>Product</label><br>
+        <label><input type="checkbox" name="product" value="P1"> P1</label>
+        <label><input type="checkbox" name="product" value="P2"> P2</label>
+        <label><input type="checkbox" name="product" value="P3"> P3</label>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+    
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="mailto:ninjuwat@gmail.com" class="upload-btn">Upload Supporting Documentation</a>
+    </div>
+  </div>
+  <script>
+    // Google Sheets integration
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxeGWyIIKLlzre1m1SiKDyC49hgmxE-Gj2GRA1BePFjnC03g1mPDZdzq5ZbuFthdVVWxw/exec';
+    
+    document.getElementById('customerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = {};
+      
+      // Convert FormData to object
+      for (let [key, value] of formData.entries()) {
+        if (key === 'product') {
+          if (!data[key]) data[key] = [];
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      }
+      
+      // Join product checkboxes into a string
+      if (data.product) {
+        data.product = data.product.join(', ');
+      }
+      
+      // Add timestamp
+      data.timestamp = new Date().toLocaleString();
+      
+      // Send to Google Sheets
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Form submitted successfully!');
+          this.reset();
+        } else {
+          alert('Error submitting form. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting form. Please try again.');
+      });
+    });
+  </script>
+</body>
+</html> 
