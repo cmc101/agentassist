@@ -548,7 +548,11 @@
         data.product = data.product.join(', ');
       }
       
-      // Add timestamp
+      // Generate unique ID with timestamp and random component
+      const timestamp = Date.now();
+      const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
+      const uniqueId = `APP-${timestamp}-${randomSuffix}`;
+      data.id = uniqueId;
       data.timestamp = new Date().toLocaleString();
       
       // Send to Google Sheets using a more reliable approach

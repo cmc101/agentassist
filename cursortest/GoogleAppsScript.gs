@@ -44,14 +44,24 @@ function doPost(e) {
     
     // Prepare the row data
     const rowData = [
+      data.id || 'NO-ID',
       data.timestamp || new Date().toLocaleString(),
-      data.firstName || '',
-      data.lastName || '',
-      data.email || '',
-      data.phone || '',
+      data.submitterName || '',
+      data.submitterEmail || '',
+      data.salesAgentCompany || '',
       data.entityName || '',
+      data.dba || '',
       data.entityType || '',
-      data.product || ''
+      data.ein || '',
+      data.jurisdiction || '',
+      data.supportEmail || '',
+      data.supportPhone || '',
+      data.ownerFirstName || '',
+      data.ownerLastName || '',
+      data.ownerEmail || '',
+      data.ownerPhone || '',
+      data.product || '',
+      data.termsAccepted || 'No'
     ];
     
     console.log('Row data to append:', rowData);
