@@ -1,12 +1,4 @@
 function doPost(e) {
-  // Set CORS headers to allow requests from Netlify
-  const headers = {
-    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400'
-  };
-  
   try {
     // Log the incoming request for debugging
     console.log('Received POST request');
@@ -70,36 +62,32 @@ function doPost(e) {
     console.log('Successfully appended row to sheet');
     
     // Return success response with CORS headers
-    return ContentService
-      .createTextOutput(JSON.stringify({ 'result': 'success', 'message': 'Data saved successfully' }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeaders(headers);
+    const response = ContentService.createTextOutput(JSON.stringify({ 'result': 'success', 'message': 'Data saved successfully' }));
+    response.setMimeType(ContentService.MimeType.JSON);
+    response.setHeader('Access-Control-Allow-Origin', 'https://chic-dasik-e88d56.netlify.app');
+    response.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return response;
       
   } catch (error) {
     console.error('Error in doPost:', error);
     console.error('Error stack:', error.stack);
     
     // Return error response with CORS headers
-    return ContentService
-      .createTextOutput(JSON.stringify({ 
-        'result': 'error', 
-        'error': error.toString(),
-        'message': 'Failed to process form submission'
-      }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeaders(headers);
+    const response = ContentService.createTextOutput(JSON.stringify({ 
+      'result': 'error', 
+      'error': error.toString(),
+      'message': 'Failed to process form submission'
+    }));
+    response.setMimeType(ContentService.MimeType.JSON);
+    response.setHeader('Access-Control-Allow-Origin', 'https://chic-dasik-e88d56.netlify.app');
+    response.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return response;
   }
 }
 
 function doGet(e) {
-  // Set CORS headers to allow requests from Netlify
-  const headers = {
-    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400'
-  };
-  
   try {
     console.log('Received GET request');
     
@@ -107,23 +95,27 @@ function doGet(e) {
     const spreadsheetId = '18Oj3a5wquM3fbzSHol-hfcQWcvxh07xw5n8cu8AAf-Q';
     const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
     
+    let response;
     if (spreadsheet) {
-      return ContentService
-        .createTextOutput('Form handler is working! Spreadsheet access confirmed.')
-        .setMimeType(ContentService.MimeType.TEXT)
-        .setHeaders(headers);
+      response = ContentService.createTextOutput('Form handler is working! Spreadsheet access confirmed.');
     } else {
-      return ContentService
-        .createTextOutput('Form handler is working but cannot access spreadsheet.')
-        .setMimeType(ContentService.MimeType.TEXT)
-        .setHeaders(headers);
+      response = ContentService.createTextOutput('Form handler is working but cannot access spreadsheet.');
     }
+    
+    response.setMimeType(ContentService.MimeType.TEXT);
+    response.setHeader('Access-Control-Allow-Origin', 'https://chic-dasik-e88d56.netlify.app');
+    response.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return response;
+    
   } catch (error) {
     console.error('Error in doGet:', error);
-    return ContentService
-      .createTextOutput('Error: ' + error.toString())
-      .setMimeType(ContentService.MimeType.TEXT)
-      .setHeaders(headers);
+    const response = ContentService.createTextOutput('Error: ' + error.toString());
+    response.setMimeType(ContentService.MimeType.TEXT);
+    response.setHeader('Access-Control-Allow-Origin', 'https://chic-dasik-e88d56.netlify.app');
+    response.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return response;
   }
 }
 
@@ -150,14 +142,9 @@ function testSpreadsheetAccess() {
 
 // Handle OPTIONS requests for CORS preflight
 function doOptions(e) {
-  const headers = {
-    'Access-Control-Allow-Origin': 'https://chic-dasik-e88d56.netlify.app',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400'
-  };
-  
-  return ContentService
-    .createTextOutput('')
-    .setHeaders(headers);
+  const response = ContentService.createTextOutput('');
+  response.setHeader('Access-Control-Allow-Origin', 'https://chic-dasik-e88d56.netlify.app');
+  response.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  return response;
 } 
