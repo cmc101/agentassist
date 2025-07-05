@@ -24,6 +24,10 @@
       max-width: 500px;
       width: 90%;
     }
+    .form-fields {
+      max-width: 400px;
+      margin: 0 auto;
+    }
     h1 {
       text-align: center;
       margin-bottom: 35px;
@@ -134,52 +138,54 @@
   <div class="container">
     <h1>Assisted Application</h1>
     <form id="customerForm" autocomplete="off">
-      <label for="firstName">First Name <span class="required-field">*</span></label>
-      <input type="text" id="firstName" name="firstName" required>
+      <div class="form-fields">
+        <label for="firstName">First Name <span class="required-field">*</span></label>
+        <input type="text" id="firstName" name="firstName" required>
 
-      <label for="lastName">Last Name <span class="required-field">*</span></label>
-      <input type="text" id="lastName" name="lastName" required>
+        <label for="lastName">Last Name <span class="required-field">*</span></label>
+        <input type="text" id="lastName" name="lastName" required>
 
-      <label for="email">Email Address <span class="required-field">*</span></label>
-      <input type="email" id="email" name="email" required>
+        <label for="email">Email Address <span class="required-field">*</span></label>
+        <input type="email" id="email" name="email" required>
 
-      <label for="phone">Phone Number <span class="required-field">*</span></label>
-      <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
+        <label for="phone">Phone Number <span class="required-field">*</span></label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9\-\+\(\) ]*" placeholder="(555) 123-4567">
 
-      <label for="entityName">Entity Name <span class="required-field">*</span></label>
-      <input type="text" id="entityName" name="entityName" required>
+        <label for="entityName">Entity Name <span class="required-field">*</span></label>
+        <input type="text" id="entityName" name="entityName" required>
 
-      <div class="form-row">
-        <div class="form-column">
-          <label for="entityType">Entity Type <span class="required-field">*</span></label>
-          <select id="entityType" name="entityType" required>
-            <option value="">Select...</option>
-            <option value="LLC">LLC</option>
-            <option value="Corp">Corp</option>
-            <option value="S-Corp">S-Corp</option>
-          </select>
-        </div>
-        <div class="form-column">
-          <div class="requirements-panel" id="requirementsPanel" style="display: none;">
-            <h4>Required Documents:</h4>
-            <ul id="requirementsList">
-            </ul>
+        <div class="form-row">
+          <div class="form-column">
+            <label for="entityType">Entity Type <span class="required-field">*</span></label>
+            <select id="entityType" name="entityType" required>
+              <option value="">Select...</option>
+              <option value="LLC">LLC</option>
+              <option value="Corp">Corp</option>
+              <option value="S-Corp">S-Corp</option>
+            </select>
+          </div>
+          <div class="form-column">
+            <div class="requirements-panel" id="requirementsPanel" style="display: none;">
+              <h4>Required Documents:</h4>
+              <ul id="requirementsList">
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="checkbox-group">
-        <label>Product <span class="required-field">*</span></label><br>
-        <label><input type="checkbox" name="product" value="P1"> P1</label>
-        <label><input type="checkbox" name="product" value="P2"> P2</label>
-        <label><input type="checkbox" name="product" value="P3"> P3</label>
-      </div>
+        <div class="checkbox-group">
+          <label>Product <span class="required-field">*</span></label><br>
+          <label><input type="checkbox" name="product" value="P1"> P1</label>
+          <label><input type="checkbox" name="product" value="P2"> P2</label>
+          <label><input type="checkbox" name="product" value="P3"> P3</label>
+        </div>
 
-      <div style="text-align: center; margin-bottom: 30px;">
-        <a href="mailto:ninjuwat@gmail.com" class="upload-btn">Upload Required Documents</a>
-      </div>
+        <div style="text-align: center; margin-bottom: 30px;">
+          <a href="mailto:ninjuwat@gmail.com" class="upload-btn">Upload Required Documents</a>
+        </div>
 
-      <button type="submit">Submit Application</button>
+        <button type="submit">Submit Application</button>
+      </div>
     </form>
   </div>
   <script>
