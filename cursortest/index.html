@@ -548,10 +548,10 @@
         data.product = data.product.join(', ');
       }
       
-      // Generate unique ID with timestamp and random component
+      // Generate unique ID with cleaner format
       const timestamp = Date.now();
-      const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
-      const uniqueId = `APP-${timestamp}-${randomSuffix}`;
+      const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
+      const uniqueId = `${timestamp}${randomSuffix}`;
       data.id = uniqueId;
       data.timestamp = new Date().toLocaleString();
       
