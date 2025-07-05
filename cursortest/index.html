@@ -204,6 +204,18 @@
     .upload-requirements li {
       margin-bottom: 5px;
     }
+    .jurisdiction-note {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 22px;
+    }
+    .jurisdiction-note p {
+      margin: 0;
+      color: #856404;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -270,6 +282,9 @@
 
         <label for="jurisdiction">Jurisdiction <span class="required-field">*</span></label>
         <input type="text" id="jurisdiction" name="jurisdiction" required>
+        <div class="jurisdiction-note" id="jurisdictionNote" style="display: none;">
+          <p><strong>Note:</strong> A Certificate of Good Standing is required for DE, WV, and NJ jurisdictions.</p>
+        </div>
 
         <label for="supportEmail">Support Email <span class="required-field">*</span></label>
         <input type="email" id="supportEmail" name="supportEmail" required>
@@ -384,6 +399,14 @@
         panel.style.display = 'block';
       } else {
         panel.style.display = 'none';
+      }
+      
+      // Update jurisdiction note
+      const jurisdictionNote = document.getElementById('jurisdictionNote');
+      if (jurisdiction && jurisdictionRequirements[jurisdiction]) {
+        jurisdictionNote.style.display = 'block';
+      } else {
+        jurisdictionNote.style.display = 'none';
       }
       
       // Update the upload requirements section
